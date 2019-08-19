@@ -6,13 +6,10 @@ namespace ComparatorTask
     {
         public int Compare(Movie x, Movie y)
         {
-            if (x == y)
-                return 0;
-            if (x == null)
-                return -1;
-            if (y == null)
-                return 1;
-            return string.CompareOrdinal(x.Title, y.Title);
+            return x == y ? 0 :
+                x == null ? -1 : 
+                y == null ? 1 :
+                string.CompareOrdinal(x.Title, y.Title);
         }
     }
 }

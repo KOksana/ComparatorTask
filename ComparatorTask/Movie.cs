@@ -16,9 +16,7 @@ namespace ComparatorTask
         }
 
         public override string ToString()
-        {
-            return "\""+ Title + "\", " + Year +  ", score: " + Score ;
-        }
+            => "\""+ Title + "\", " + Year +  ", score: " + Score ;
 
         public int CompareTo(object obj)
         {
