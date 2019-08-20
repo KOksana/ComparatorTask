@@ -7,22 +7,26 @@ namespace ComparatorTask
     {
         static void Main(string[] args)
         {
-            List<Movie> movieList = new List<Movie>();
-            movieList.Add(new Movie("First movie", 2000, 5.5));
-            movieList.Add(new Movie("The best movie2", 2011, 8.7));
-            movieList.Add(new Movie("The best movie", 2008, 8.0));
-            movieList.Add(new Movie("Second movie", 2001, 4.8));
-            movieList.Add(new Movie("New movie", 2015, 5.5));
-            movieList.Add(new Movie("Movie 1", 2011, 6.5));
-            movieList.Add(new Movie("Movie 2", 2012, 7.5));
+            var movieList = new List<Movie>
+            {
+                new Movie("Movie 12", 2012, 7.5),
+                new Movie("First movie", 2000, 5.5),
+                new Movie("The best movie2", 2011, 8.7),
+                new Movie("The best movie", 2008, 8.0),
+                new Movie("Second movie", 2001, 4.8),
+                new Movie("New movie", 2015, 5.5),
+                new Movie("Movie 1", 2011, 6.5),
+                new Movie("Movie 2", 2012, 7.5)
+            };
 
-            SortedSet<Movie> movieSet = new SortedSet<Movie>(movieList);
+            var movieSet = new SortedSet<Movie>(movieList);
 
             Console.WriteLine("--- Movies from SortedSet sorted by score (default) ---");
             foreach (var movie in movieSet)
             {
                 Console.WriteLine(movie);
             }
+            Console.WriteLine($"Count: {movieSet.Count}");
 
             movieList.Sort(new MovieScoreComparator());
             Console.WriteLine("\n--- Movies sorted by score ---");
@@ -30,6 +34,7 @@ namespace ComparatorTask
             {
                 Console.WriteLine(movie);
             }
+            Console.WriteLine($"Count: {movieList.Count}");
 
             movieList.Sort(new MovieTitleComparator());
             Console.WriteLine("\n--- Movies sorted by title ---");
@@ -37,6 +42,7 @@ namespace ComparatorTask
             {
                 Console.WriteLine(movie);
             }
+            Console.WriteLine($"Count: {movieList.Count}");
 
             movieList.Sort(new MovieYearComparator());
             Console.WriteLine("\n--- Movies sorted by year ---");
@@ -44,33 +50,35 @@ namespace ComparatorTask
             {
                 Console.WriteLine(movie);
             }
+            Console.WriteLine($"Count: {movieList.Count}");
 
             Console.WriteLine("\n****** Remove movies result ******");
 
-            Movie[] movieArray = new Movie[movieSet.Count];
+            var movieArray = new Movie[movieSet.Count];
             movieSet.CopyTo(movieArray);
+            Console.WriteLine($"MovieArray Count: {movieArray.Length}");
+            Console.WriteLine($"MovieSet Count: {movieSet.Count}");
             
-            foreach(var elem in movieArray)
+            foreach(var element in movieArray)
             {
-                if (elem.Score < 8)
-                    movieSet.Remove(elem);
+                if (!(element.Score < 8)) continue;
+                Console.WriteLine($"Removing element: {element}!");
+                movieSet.Remove(element);
             }
 
             Console.WriteLine("\n--- Remove movies from movieSet with the score less than 8, using CopyTo ---");
-            foreach (var elem in movieSet)
+            foreach (var element in movieSet)
             {
-                Console.WriteLine(elem);
+                Console.WriteLine(element);
             }
 
-            int count = movieList.Count;
-            int deleted = 0;
-            for (int i = 0; i < count; i++)
+            var count = movieList.Count;
+            var deleted = 0;
+            for (var i = 0; i < count; i++)
             {
-                if (movieList[i - deleted].Score < 6)
-                {
-                    movieList.RemoveAt(i - deleted);
-                    deleted++;
-                }
+                if (!(movieList[i - deleted].Score < 6)) continue;
+                movieList.RemoveAt(i - deleted);
+                deleted++;
             }
 
             Console.WriteLine("\n--- Remove movies from movieList with the score less than 6, using FOR loop ---");
@@ -79,12 +87,15 @@ namespace ComparatorTask
             {
                 Console.WriteLine(elem);
             }
+            Console.WriteLine($"MovieList count: {movieList}");
 
-            foreach (var elem in movieList.ToArray())
+            foreach (var element in movieList.ToArray())
             {
-                if (elem.Score < 8)
-                    movieList.Remove(elem);
+                if (!(element.Score < 8)) continue;
+                Console.WriteLine($"Removing element: {element}!");
+                movieList.Remove(element);
             }
+            Console.WriteLine($"MovieList count: {movieList.Count}");
 
             Console.WriteLine("\n--- Remove movies from movieList with the score less than 8, using ToArray() ---");
 
@@ -92,24 +103,29 @@ namespace ComparatorTask
             {
                 Console.WriteLine(elem);
             }
+            Console.WriteLine($"MovieList count: {movieList.Count}");
 
-            movieList.RemoveAll(movie => movie.Year < 2010);
+            Console.WriteLine($"\n---MovieList count before RemoveAll: {movieList.Count}");
             Console.WriteLine("\n--- Remove movies from movieList with the year less than 2010 using RemoveAll and lambda expression ---");
+            movieList.RemoveAll(movie => movie.Year < 2010);
+            Console.WriteLine($"MovieList count after RemoveAll: {movieList.Count}");
 
             foreach (var elem in movieList)
             {
                 Console.WriteLine(elem);
             }
+            Console.WriteLine($"MovieList count: {movieList.Count}");
 
-            IEnumerator<Movie> iter = movieSet.GetEnumerator();
-
-            while (iter.MoveNext())
+            IEnumerator<Movie> enumerator = movieSet.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                movieSet.Remove(iter.Current);
-                iter = movieSet.GetEnumerator();
+                movieSet.Remove(enumerator.Current);
+                enumerator = movieSet.GetEnumerator();
             }
+            enumerator.Dispose();
+            Console.WriteLine($"MovieList count: {movieSet.Count}");
 
-            Console.WriteLine("\n--- Remove all movies from movieSet ---");
+            Console.WriteLine("\n--- that's all that's left - the end ---");
             foreach (var elem in movieSet)
             {
                 Console.WriteLine(elem);
