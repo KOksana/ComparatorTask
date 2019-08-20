@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ComparatorTask
 {
@@ -14,7 +10,7 @@ namespace ComparatorTask
                 x == null ? -1 :
                 y == null ? 1 :
                 x.Score < y.Score ? -1 :
-                x.Score == y.Score ? 0 : 1;
+                x.Score.Equals(y.Score) ? 0 : 1;
         }
     }
 }

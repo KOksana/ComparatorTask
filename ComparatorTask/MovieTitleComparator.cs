@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ComparatorTask
 {
@@ -9,7 +10,7 @@ namespace ComparatorTask
             return x == y ? 0 :
                 x == null ? -1 : 
                 y == null ? 1 :
-                string.CompareOrdinal(x.Title, y.Title);
+                string.Compare(x.Title, y.Title, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
